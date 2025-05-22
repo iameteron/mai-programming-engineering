@@ -1,0 +1,155 @@
+syntax = "proto3";
+
+package user;
+
+import "google/protobuf/timestamp.proto";
+
+
+service UserService {
+    rpc GetUserData (GetUserDataRequest) returns (GetUserDataResponse);
+    rpc SearchUsers (SearchUsersRequest) returns (SearchUsersResponse);
+    rpc GetUserDataByUsername (GetUserDataRequest) returns (GetUserDataResponse);
+    rpc UpdateUserData (UpdateUserDataRequest) returns (UpdateUserDataResponse);
+    rpc DeactivateUser (DeactivateUserRequest) returns (DeactivateUserResponse);
+    rpc ReactivateUser (ReactivateUserRequest) returns (ReactivateUserResponse);
+    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+}
+
+
+
+message SearchUsersRequest {
+    int32 page = 1;
+    optional string first_name = 2;
+    optional string second_name = 3;
+}
+
+message SearchUsersResponse {
+    int32 code = 1;
+
+    oneof SearchUsersResponseOneOf {
+        string message = 2;
+        BriefUserArray users = 3;
+    }
+}
+
+message CreateUserRequest {
+    CreateUserData creating_user_data = 1;
+}
+
+message CreateUserResponse {
+    int32 code = 1;
+    oneof CreateUserResponseOneOf {
+        string message = 2;
+        UserData user_data = 3;
+    }
+}
+
+message ReactivateUserRequest {
+    string user_id = 1;
+}
+
+message ReactivateUserResponse {
+    int32 code = 1;
+    optional string message = 2;
+}
+
+message DeactivateUserRequest {
+    string user_id = 1;
+}
+
+message DeactivateUserResponse {
+    int32 code = 1;
+    optional string message = 2;
+}
+
+message GetUserDataRequest {
+    string user_id = 1;
+}
+
+message GetUserDataResponse {
+    int32 code = 1;
+    oneof GetUserResponseOneOf {
+        string message = 2;
+        UserData user_data = 3;
+    }
+}
+
+message GetUserDataByUsernameRequest {
+    string username = 1;
+}
+
+message GetUserDataByUsernameResponse {
+    int32 code = 1;
+    oneof GetUserDataByUsernameOneOf {
+        string message = 2;
+        UserData user_data = 3;
+    }
+}
+
+message UpdateUserDataRequest {
+    string user_id = 1;
+    UpdateUserData updating_user_data = 2;
+} 
+
+message UpdateUserDataResponse {
+    int32 code = 1;
+    oneof SetUserDataResponseOneOf {
+        string message = 2;
+        UserData user_data = 3;
+    }
+}
+
+message BriefUserArray {
+    repeated BriefUserData arr = 1;
+}
+
+message GroupData {
+    string id = 1;
+    optional string name = 2;
+}
+
+message GroupArray {
+    repeated GroupData arr = 1; 
+}
+
+message CreateUserData {
+    string username = 1;
+    string password = 2;
+    string first_name = 3;
+    string second_name = 4;
+    optional string patronymic = 5;
+    optional string email = 6;
+    optional string phone = 7;
+    optional google.protobuf.Timestamp birth = 8;
+    repeated string groups_ids = 9;
+}
+
+message UserData {
+    string id = 1;
+    string username = 2;
+    string first_name = 3;
+    string second_name = 4;
+    optional string patronymic = 5;
+    optional string email = 6;
+    optional string phone = 7;
+    optional google.protobuf.Timestamp birth = 8;
+    repeated GroupData groups = 9;
+}
+
+message UpdateUserData {
+    optional string username = 1;
+    optional string first_name = 2;
+    optional string second_name = 3;
+    optional string patronymic = 4;
+    optional string email = 5;
+    optional string phone = 6;
+    optional google.protobuf.Timestamp birth = 7;
+    optional GroupArray groups = 8;
+}
+
+message BriefUserData {
+    string id = 1;
+    string username = 2;
+    string first_name = 3;
+    string second_name = 4;
+}

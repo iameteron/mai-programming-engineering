@@ -1,0 +1,8 @@
+grpcio
+grpcio-tools
+asyncpg
+pydantic
+passlib
+bcrypt
+email-validator
+redis

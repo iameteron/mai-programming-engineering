@@ -1,0 +1,10 @@
+fastapi
+asyncpg
+passlib
+python-jose
+pydantic
+uvicorn
+python-multipart
+grpcio 
+grpcio-tools
+email-validator
